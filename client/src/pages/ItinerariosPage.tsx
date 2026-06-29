@@ -27,7 +27,7 @@ export function ItinerariosPage() {
           <h1 className="text-2xl font-bold text-[rgb(var(--foreground))]">Itinerarios</h1>
           <p className="text-[rgb(var(--muted-foreground))]">Planes de viaje día a día</p>
         </div>
-        <button className="btn-primary"><Plus className="w-4 h-4 mr-2" /> Nuevo Itinerario</Button>
+        <button className="btn-primary"><Plus className="w-4 h-4 mr-2" /> Nuevo Itinerario</button>
       </div>
 
       <Card>
@@ -40,38 +40,36 @@ export function ItinerariosPage() {
             <div className="text-center text-[rgb(var(--muted-foreground))] py-8">Cargando...</div>
           ) : filteredData.length === 0 ? (
             <div className="text-center text-[rgb(var(--muted-foreground))] py-8">No hay itinerarios</div>
-          ) : (
-            filteredData.map((it: any) => (
-              <Card key={it.id} className="p-4 hover:shadow-card-hover transition-shadow">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-[rgb(var(--foreground))]">{it.titulo}</h3>
-                      <span className="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-400 rounded">{it.duracionDias} días</span>
-                    </div>
-                    <p className="text-[rgb(var(--muted-foreground))] mb-3">{it.descripcion || 'Sin descripción'}</p>
-                    <div className="flex flex-wrap gap-3 text-sm text-[rgb(var(--muted-foreground))]">
-                      <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Creado: {formatDate(it.createdAt)}</span>
-                      <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Duración: {it.duracionDias} días</span>
-                    </div>
+          ) : filteredData.map((it: any) => (
+            <Card key={it.id} className="p-4 hover:shadow-card-hover transition-shadow">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-lg font-semibold text-[rgb(var(--foreground))]">{it.titulo}</h3>
+                    <span className="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-400 rounded">{it.duracionDias} días</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {(it.actividades || []).slice(0, 3).map((act: any, i: number) => (
-                      <div key={i} className="px-3 py-1.5 text-xs bg-[rgb(var(--secondary))] text-[rgb(var(--secondary-foreground))] rounded flex items-center gap-1">
-                        {act.hora && <Clock className="w-3 h-3" />}
-                        <span>{act.hora || ''} {act.nombre}</span>
-                        {act.lugar && <MapPin className="w-3 h-3" />}
-                        <span className="truncate max-w-[150px]">{act.lugar || ''}</span>
-                      </div>
-                    ))}
-                    {it.actividades && it.actividades.length > 3 && (
-                      <span className="px-2 py-1 text-xs text-[rgb(var(--muted-foreground))]">+{it.actividades.length - 3} más</span>
-                    )}
+                  <p className="text-[rgb(var(--muted-foreground))] mb-3">{it.descripcion || 'Sin descripción'}</p>
+                  <div className="flex flex-wrap gap-3 text-sm text-[rgb(var(--muted-foreground))]">
+                    <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Creado: {formatDate(it.createdAt)}</span>
+                    <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Duración: {it.duracionDias} días</span>
                   </div>
                 </div>
-              </Card>
-            ))}
-          )}
+                <div className="flex flex-wrap gap-2">
+                  {(it.actividades || []).slice(0, 3).map((act: any, i: number) => (
+                    <div key={i} className="px-3 py-1.5 text-xs bg-[rgb(var(--secondary))] text-[rgb(var(--secondary-foreground))] rounded flex items-center gap-1">
+                      {act.hora && <Clock className="w-3 h-3" />}
+                      <span>{act.hora || ''} {act.nombre}</span>
+                      {act.lugar && <MapPin className="w-3 h-3" />}
+                      <span className="truncate max-w-[150px]">{act.lugar || ''}</span>
+                    </div>
+                  ))}
+                  {it.actividades && it.actividades.length > 3 && (
+                    <span className="px-2 py-1 text-xs text-[rgb(var(--muted-foreground))]">+{it.actividades.length - 3} más</span>
+                  )}
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </Card>
     </div>
