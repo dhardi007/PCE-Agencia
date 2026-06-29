@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 6 24 42;
+    --foreground: 255 255 255;
+    --card: 30 41 59;
+    --card-foreground: 255 255 255;
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --secondary: 51 65 85;
+    --secondary-foreground: 255 255 255;
+    --muted: 51 65 85;
+    --muted-foreground: 148 163 184;
+    --accent: 51 65 85;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 255 255 255 / 0.1;
+    --input: 30 41 59;
+    --ring: 59 130 246;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 6 24 42;
+    --foreground: 255 255 255;
+    --card: 30 41 59;
+    --card-foreground: 255 255 255;
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --secondary: 51 65 85;
+    --secondary-foreground: 255 255 255;
+    --muted: 51 65 85;
+    --muted-foreground: 148 163 184;
+    --accent: 51 65 85;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 255 255 255 / 0.1;
+    --input: 30 41 59;
+    --ring: 59 130 246;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))] antialiased;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-btn px-4 py-2.5 text-sm font-medium transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-[rgb(var(--background))] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-[rgb(var(--primary))] text-[rgb(var(--primary-foreground))] hover:bg-blue-700 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply btn bg-[rgb(var(--secondary))] text-[rgb(var(--secondary-foreground))] hover:bg-slate-700;
+  }
+  .btn-outline {
+    @apply btn border border-border bg-transparent hover:bg-[rgb(var(--accent))];
+  }
+  .btn-ghost {
+    @apply btn bg-transparent hover:bg-[rgb(var(--accent))];
+  }
+  .btn-destructive {
+    @apply btn bg-[rgb(var(--destructive))] text-[rgb(var(--destructive-foreground))] hover:bg-red-600;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-input bg-[rgb(var(--input))] border border-border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[rgb(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--background))] disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-fast;
+  }
+
+  .card {
+    @apply rounded-card bg-[rgb(var(--card))] text-[rgb(var(--card-foreground))] shadow-card border border-border;
+  }
+  .card-hover {
+    @apply card transition-shadow duration-normal hover:shadow-card-hover;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-primary { @apply badge bg-blue-500/20 text-blue-300; }
+  .badge-success { @apply badge bg-green-500/20 text-green-300; }
+  .badge-warning { @apply badge bg-yellow-500/20 text-yellow-300; }
+  .badge-danger { @apply badge bg-red-500/20 text-red-300; }
+  .badge-muted { @apply badge bg-[rgb(var(--muted))] text-[rgb(var(--muted-foreground))]; }
+
+  .table-container {
+    @apply w-full overflow-x-auto;
+  }
+  .table {
+    @apply w-full caption-bottom text-sm;
+  }
+  .table th {
+    @apply h-12 px-4 text-left align-middle font-medium text-[rgb(var(--muted-foreground))] border-b border-border;
+  }
+  .table td {
+    @apply p-4 align-middle border-b border-border;
+  }
+  .table tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-btn px-3 py-2 text-sm font-medium text-[rgb(var(--muted-foreground))] transition-all duration-fast hover:bg-[rgb(var(--accent))] hover:text-[rgb(var(--accent-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))];
+  }
+  .sidebar-link-active {
+    @apply sidebar-link bg-[rgb(var(--primary))] text-[rgb(var(--primary-foreground))];
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--muted)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--muted));
+    border-radius: 3px;
+  }
+  .animate-in {
+    animation: fadeIn 0.2s ease-out, slideUp 0.3s ease-out;
+  }
+}
