@@ -24,7 +24,8 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--background))] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--background))] px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/src/assets/hero.png')] bg-cover bg-center opacity-5" />
       <div className="w-full max-w-md">
         <div className="card p-8 animate-in">
           <div className="text-center mb-8">
