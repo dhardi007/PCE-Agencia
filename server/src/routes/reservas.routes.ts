@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { prisma } from '../lib/prisma';
-import { validateQuery, validateBody } from '../middleware/validation';
-import { createReservaSchema, updateReservaSchema, paginationSchema, filterSchema } from '../validation/schemas';
-import { generalLimiter } from '../middleware/security';
-import { NotFoundError, ValidationError } from '../utils/errors';
-import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse';
+import { prisma } from '../lib/prisma.js';
+import { validateQuery, validateBody } from '../middleware/validation.js';
+import { createReservaSchema, updateReservaSchema, paginationSchema, filterSchema } from '../validation/schemas.js';
+import { generalLimiter } from '../middleware/security.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
+import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse.js';
 
 const router = Router();
 
@@ -46,7 +46,7 @@ router.get('/:id', generalLimiter, async (req, res, next) => {
   try {
     const reserva = await prisma.reserva.findUnique({
       where: { id: req.params.id },
-      include: { cliente: true, empleado: true, itinerario: true, servicios: true, transacciones: true, facturas: true },
+      include: { cliente: true, empleado: true, itinerario: true, transacciones: true, facturas: true },
     });
     if (!reserva) throw new NotFoundError('Reserva');
     res.json(createSuccessResponse(reserva));

@@ -3,19 +3,19 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { prisma } from './lib/prisma';
-import { seedData } from './seed';
-import { generalLimiter, securityHeaders } from './middleware/security';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import { prisma } from './lib/prisma.js';
+import { seedData } from './seed.js';
+import { generalLimiter, securityHeaders } from './middleware/security.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 // Importar rutas
-import authRoutes from './routes/auth.routes';
-import clientesRoutes from './routes/clientes.routes';
-import proveedoresRoutes from './routes/proveedores.routes';
-import itinerariosRoutes from './routes/itinerarios.routes';
-import reservasRoutes from './routes/reservas.routes';
-import transaccionesRoutes from './routes/transacciones.routes';
-import facturasRoutes from './routes/facturas.routes';
+import authRoutes from './routes/auth.routes.js';
+import clientesRoutes from './routes/clientes.routes.js';
+import proveedoresRoutes from './routes/proveedores.routes.js';
+import itinerariosRoutes from './routes/itinerarios.routes.js';
+import reservasRoutes from './routes/reservas.routes.js';
+import transaccionesRoutes from './routes/transacciones.routes.js';
+import facturasRoutes from './routes/facturas.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

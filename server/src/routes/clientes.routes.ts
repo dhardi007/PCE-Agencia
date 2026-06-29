@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { prisma } from '../lib/prisma';
-import { validateQuery, validateBody } from '../middleware/validation';
-import { createClienteSchema, updateClienteSchema, paginationSchema, filterSchema } from '../validation/schemas';
-import { generalLimiter } from '../middleware/security';
-import { AppError, NotFoundError, ValidationError } from '../utils/errors';
-import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse';
+import { prisma } from '../lib/prisma.js';
+import { validateQuery, validateBody } from '../middleware/validation.js';
+import { createClienteSchema, updateClienteSchema, paginationSchema, filterSchema } from '../validation/schemas.js';
+import { generalLimiter } from '../middleware/security.js';
+import { AppError, NotFoundError, ValidationError } from '../utils/errors.js';
+import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse.js';
 
 const router = Router();
 
@@ -57,7 +57,7 @@ router.get('/:id', generalLimiter, async (req, res, next) => {
       where: { id: req.params.id },
       include: {
         user: { select: { nombre: true, email: true } },
-        historialViajes: { include: { itinerario: true, servicios: true } },
+        historialViajes: { include: { itinerario: true } },
         transacciones: { orderBy: { createdAt: 'desc' }, take: 10 },
         facturas: { orderBy: { createdAt: 'desc' }, take: 10 },
       },

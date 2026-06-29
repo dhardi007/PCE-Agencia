@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -20,6 +19,8 @@ model User {
   totpSecret            String?  // Para 2FA futuro
   failedLoginAttempts   Int      @default(0)
   lockedUntil           DateTime?
+  emailVerified         Boolean  @default(false)
+  emailVerificationToken String?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -85,6 +86,8 @@ model Reserva {
   itinerario     Itinerario @relation(fields: [itinerarioId], references: [id])
   servicios      Json     // [{proveedorId, tipo, fechaInicio, fechaFin, precio, estado}]
   estadoGeneral  String   @default("activa") // activa, completada, cancelada
+  transacciones  Transaccion[]
+  facturas       Factura[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

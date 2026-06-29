@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { prisma } from '../lib/prisma';
-import { validateQuery, validateBody } from '../middleware/validation';
-import { createFacturaSchema, updateFacturaSchema, paginationSchema, filterSchema } from '../validation/schemas';
-import { generalLimiter } from '../middleware/security';
-import { NotFoundError, ValidationError } from '../utils/errors';
-import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse';
+import { prisma } from '../lib/prisma.js';
+import { validateQuery, validateBody } from '../middleware/validation.js';
+import { createFacturaSchema, updateFacturaSchema, paginationSchema, filterSchema } from '../validation/schemas.js';
+import { generalLimiter } from '../middleware/security.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
+import { createSuccessResponse, createPaginationMeta } from '../utils/apiResponse.js';
 
 const router = Router();
 

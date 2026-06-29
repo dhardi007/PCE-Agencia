@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../lib/prisma';
-import { validateBody } from '../middleware/validation';
-import { authRegisterSchema, authLoginSchema } from '../validation/schemas';
-import { registerLimiter, authLimiter } from '../middleware/security';
-import { AppError, ConflictError, UnauthorizedError } from '../utils/errors';
-import { createSuccessResponse } from '../utils/apiResponse';
+import { prisma } from '../lib/prisma.js';
+import { validateBody } from '../middleware/validation.js';
+import { authRegisterSchema, authLoginSchema } from '../validation/schemas.js';
+import { registerLimiter, authLimiter } from '../middleware/security.js';
+import { AppError, ConflictError, UnauthorizedError } from '../utils/errors.js';
+import { createSuccessResponse } from '../utils/apiResponse.js';
 
 const router = Router();
 

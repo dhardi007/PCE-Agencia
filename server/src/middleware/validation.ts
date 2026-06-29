@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
-import { ValidationError } from '../utils/errors';
+import { ZodObject, ZodError } from 'zod';
+import { ValidationError } from '../utils/errors.js';
 
-export const validate = (schema: AnyZodObject) =>
+export const validate = (schema: ZodObject<any, any>) =>
   async (req: Request, _res: Response, next: NextFunction) => {
     try {
       await schema.parseAsync({
@@ -13,7 +13,7 @@ export const validate = (schema: AnyZodObject) =>
       return next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const details = error.errors.map(e => ({
+        const details = error.issues.map(e => ({
           field: e.path.join('.'),
           message: e.message,
         }));
@@ -23,14 +23,14 @@ export const validate = (schema: AnyZodObject) =>
     }
   };
 
-export const validateBody = (schema: AnyZodObject) =>
+export const validateBody = (schema: ZodObject<any, any>) =>
   async (req: Request, _res: Response, next: NextFunction) => {
     try {
       req.body = await schema.parseAsync(req.body);
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const details = error.errors.map(e => ({
+        const details = error.issues.map(e => ({
           field: e.path.join('.'),
           message: e.message,
         }));
@@ -40,14 +40,14 @@ export const validateBody = (schema: AnyZodObject) =>
     }
   };
 
-export const validateQuery = (schema: AnyZodObject) =>
+export const validateQuery = (schema: ZodObject<any, any>) =>
   async (req: Request, _res: Response, next: NextFunction) => {
     try {
-      req.query = await schema.parseAsync(req.query);
+      req.query = await schema.parseAsync(req.query) as any;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const details = error.errors.map(e => ({
+        const details = error.issues.map(e => ({
           field: e.path.join('.'),
           message: e.message,
         }));
