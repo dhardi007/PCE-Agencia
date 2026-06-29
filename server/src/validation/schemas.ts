@@ -21,13 +21,22 @@ export const filterSchema = z.object({
 export const authRegisterSchema = z.object({
   nombre: z.string().min(2, 'Nombre debe tener al menos 2 caracteres').max(100),
   email: z.string().email('Email inválido'),
-  password: z.string().min(8, 'Contraseña debe tener al menos 8 caracteres'),
+  password: z.string().min(8, 'Contraseña debe tener al menos 8 caracteres')
+    .refine(val => val.length >= 8, 'Mínimo 8 caracteres')
+    .refine(val => /[A-Z]/.test(val), 'Debe tener al menos una mayúscula')
+    .refine(val => /[a-z]/.test(val), 'Debe tener al menos una minúscula')
+    .refine(val => /[0-9]/.test(val), 'Debe tener al menos un número')
+    .refine(val => /[^A-Za-z0-9]/.test(val), 'Debe tener al menos un símbolo'),
   rol: z.enum(['admin', 'empleado']).optional(),
 });
 
 export const authLoginSchema = z.object({
   email: z.string().email('Email inválido'),
   password: z.string().min(1, 'Contraseña requerida'),
+});
+
+export const authRefreshSchema = z.object({
+  refreshToken: z.string().min(1, 'Refresh token requerido'),
 });
 
 export const createClienteSchema = z.object({
