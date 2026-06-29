@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!refreshToken) return;
     try {
       const { data } = await authApi.refresh(refreshToken);
-      const { accessToken, refreshToken: newRefreshToken } = data.data;
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data;
       useAuthStore.getState().setTokens(newAccessToken, newRefreshToken);
     } catch {
       useAuthStore.getState().logout();

@@ -31,10 +31,9 @@ export function TransaccionesPage() {
           <h1 className="text-2xl font-bold text-[rgb(var(--foreground))]">Transacciones</h1>
           <p className="text-[rgb(var(--muted-foreground))]">Registro financiero de pagos y movimientos</p>
         </div>
-        <button className="btn-primary"><Plus className="w-4 h-4 mr-2" /> Nueva Transacción</Button>
+        <button className="btn-primary"><Plus className="w-4 h-4 mr-2" /> Nueva Transacción</button>
       </div>
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-6">
           <div className="flex items-center justify-between">
@@ -43,28 +42,29 @@ export function TransaccionesPage() {
               <p className="text-3xl font-bold text-green-400">{totalIngresos.toLocaleString('es-VE', { style: 'currency', currency: 'USD' })}</p>
             </div>
             <TrendingUp className="w-8 h-8 text-green-500" />
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[rgb(var(--muted-foreground))]">Egresos Totales</p>
-                <p className="text-3xl font-bold text-red-400">{totalEgresos.toLocaleString('es-VE', { style: 'currency', currency: 'USD' })}</p>
-              </div>
-              <TrendingDown className="w-8 h-8 text-red-500" />
-            </Card>
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[rgb(var(--muted-foreground))]">Balance Neto</p>
-                <p className={cn('text-3xl font-bold', totalIngresos - totalEgresos >= 0 ? 'text-green-400' : 'text-red-400')}>
-                  {(totalIngresos - totalEgresos).toLocaleString('es-VE', { style: 'currency', currency: 'USD' })}
-                </p>
-              </div>
-              <ArrowRightLeft className="w-8 h-8 text-blue-500" />
-            </Card>
           </div>
-        </div>
-      </Card>
+        </Card>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[rgb(var(--muted-foreground))]">Egresos Totales</p>
+              <p className="text-3xl font-bold text-red-400">{totalEgresos.toLocaleString('es-VE', { style: 'currency', currency: 'USD' })}</p>
+            </div>
+            <TrendingDown className="w-8 h-8 text-red-500" />
+          </div>
+        </Card>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[rgb(var(--muted-foreground))]">Balance Neto</p>
+              <p className={cn('text-3xl font-bold', totalIngresos - totalEgresos >= 0 ? 'text-green-400' : 'text-red-400')}>
+                {(totalIngresos - totalEgresos).toLocaleString('es-VE', { style: 'currency', currency: 'USD' })}
+              </p>
+            </div>
+            <ArrowRightLeft className="w-8 h-8 text-blue-500" />
+          </div>
+        </Card>
+      </div>
 
       <Card>
         <div className="p-4 border-b border-border">
