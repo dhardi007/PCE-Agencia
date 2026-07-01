@@ -123,7 +123,7 @@ export function FacturasPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Button variant="ghost" size="icon" onClick={() => openEdit(factura)} title="Editar"><Edit className="w-4 h-4" /></Button>
                         <Button variant="ghost" size="icon" title="Ver PDF"><FileText className="w-4 h-4" /></Button>
-                        <Button variant="ghost" size="icon" variant="danger" onClick={() => { if (confirm('¿Eliminar esta factura?')) deleteMutation.mutate(factura.id); }} disabled={deleteMutation.isPending} title="Eliminar"><Trash2 className="w-4 h-4" /></Button>
+                        <Button variant="danger" size="icon" onClick={() => { if (confirm('¿Eliminar esta factura?')) deleteMutation.mutate(factura.id); }} disabled={deleteMutation.isPending} title="Eliminar"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </td>
                   </tr>

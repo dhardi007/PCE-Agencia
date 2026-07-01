@@ -1,12 +1,10 @@
-import { useState } from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUIStore } from '../store/uiStore';
 import { cn } from '../lib/utils';
-import { Button } from '../components/ui/Button';
 import {
   LayoutDashboard, Users, Briefcase, Plane, Calendar, DollarSign, FileText,
-  LogOut, Menu, X, ChevronLeft, ChevronRight, Search, Bell, User, Moon, Sun
+  LogOut, Menu, ChevronLeft, ChevronRight, Search, Bell, Moon, Sun
 } from 'lucide-react';
 
 const navItems = [
@@ -21,16 +19,7 @@ const navItems = [
 
 export function DashboardLayout() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const { sidebarCollapsed, sidebarMobileOpen, theme, toggleSidebar, toggleSidebarMobile, setSidebarMobileOpen, setTheme } = useUIStore();
-  const [isDark, setIsDark] = useState(false);
-
-  const handleLogout = async () => {
-    const { logout: doLogout } = await import('../context/AuthContext').then(m => m.useAuth());
-    // Usar el store directamente
-    const { logout: doLogoutStore } = await import('../store/authStore').then(m => m.useAuthStore.getState());
-    await doLogoutStore();
-  };
 
   return (
     <div className="min-h-screen bg-[rgb(var(--background))] flex">
@@ -147,11 +136,11 @@ export function DashboardLayout() {
 
             {/* Theme toggle */}
             <button
-              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="p-2 rounded-lg hover:bg-[rgb(var(--accent))] text-[rgb(var(--muted-foreground))] hover:text-[rgb(var(--foreground))]"
-              aria-label={isDark ? 'Modo claro' : 'Modo oscuro'}
+              aria-label={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
             >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
             {/* Notifications */}
