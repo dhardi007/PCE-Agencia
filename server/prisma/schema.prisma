@@ -1,0 +1,125 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String   @id @default(uuid())
+  nombre                String
+  email                 String   @unique
+  password              String
+  rol                   String   @default("empleado")
+  totpSecret            String?  // Para 2FA futuro
+  failedLoginAttempts   Int      @default(0)
+  lockedUntil           DateTime?
+  emailVerified         Boolean  @default(false)
+  emailVerificationToken String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  clientes              Cliente[]
+  reservasEmpleado      Reserva[]     @relation("ReservaEmpleado")
+  itinerarios           Itinerario[]
+
+  @@map("users")
+}
+
+model Cliente {
+  id                String   @id @default(uuid())
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id])
+  nombre            String
+  telefono          String?
+  direccion         String?
+  preferenciasViaje String[]
+  historialViajes   Reserva[]
+  transacciones     Transaccion[]
+  facturas          Factura[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("clientes")
+}
+
+model Proveedor {
+  id        String   @id @default(uuid())
+  nombre    String
+  tipo      String   // aerolinea, hotel, turismo, otro
+  contacto  Json?
+  contrato  String?
+  catalogo  Json     // [{servicio, tarifa, moneda}]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("proveedores")
+}
+
+model Itinerario {
+  id           String   @id @default(uuid())
+  titulo       String
+  descripcion  String?
+  creadoPorId  String
+  creadoPor    User     @relation(fields: [creadoPorId], references: [id])
+  duracionDias Int
+  actividades  Json
+  reservas     Reserva[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("itinerarios")
+}
+
+model Reserva {
+  id             String   @id @default(uuid())
+  clienteId      String
+  cliente        Cliente  @relation(fields: [clienteId], references: [id])
+  empleadoId     String
+  empleado       User     @relation("ReservaEmpleado", fields: [empleadoId], references: [id])
+  itinerarioId   String
+  itinerario     Itinerario @relation(fields: [itinerarioId], references: [id])
+  servicios      Json     // [{proveedorId, tipo, fechaInicio, fechaFin, precio, estado}]
+  estadoGeneral  String   @default("activa") // activa, completada, cancelada
+  transacciones  Transaccion[]
+  facturas       Factura[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("reservas")
+}
+
+model Transaccion {
+  id          String   @id @default(uuid())
+  reservaId   String
+  reserva     Reserva  @relation(fields: [reservaId], references: [id])
+  clienteId   String
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+  monto       Float
+  tipo        String   // pago, reembolso, pago_proveedor
+  metodo      String
+  descripcion String?
+  createdAt   DateTime @default(now())
+
+  @@map("transacciones")
+}
+
+model Factura {
+  id        String   @id @default(uuid())
+  reservaId String
+  reserva   Reserva  @relation(fields: [reservaId], references: [id])
+  clienteId String
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  numero    String   @unique
+  items     Json     // [{descripcion, cantidad, precioUnitario, subtotal}]
+  total     Float
+  estado    String   @default("pendiente") // pendiente, pagada, anulada
+  createdAt DateTime @default(now())
+
+  @@map("facturas")
+}
