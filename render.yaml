@@ -1,24 +1,54 @@
 # ══════════════════════════════════════════
-# PCE-Agencia — Render Blueprint
+# PCE-Agencia — Render Blueprint (Docker Compose)
 # ══════════════════════════════════════════
-# Deploy automático con un clic desde GitHub
+# Deploy: conecta repo → New → Blueprint → selecciona este archivo
 # https://render.com/docs/blueprint-spec
 
 services:
-  - type: web
-    name: pce-agencia
-    runtime: node
+  # PostgreSQL 16
+  - type: pserv
+    name: pce-db
+    plan: free
     region: oregon
-    rootDir: server
-    buildCommand: npm install
-    startCommand: npm start
+    ipAllowList: []
+    databaseName: pce_agencia
+    user: postgres
+
+  # Backend API (Docker)
+  - type: web
+    name: pce-backend
+    runtime: docker
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+    region: oregon
     plan: free
     envVars:
-      - key: PORT
-        value: 10000
-      - key: USE_MEMORY_DB
-        value: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pce-db
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: PORT
+        value: "4000"
       - key: NODE_ENV
         value: production
+    healthCheckPath: /api/health
+
+  # Frontend (Docker + Nginx)
+  - type: web
+    name: pce-frontend
+    runtime: docker
+    dockerfilePath: ./client/Dockerfile
+    dockerContext: ./client
+    region: oregon
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        value: https://pce-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://pce-backend.onrender.com/api/*
