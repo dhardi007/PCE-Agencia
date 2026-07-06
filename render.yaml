@@ -1,19 +1,11 @@
 # ══════════════════════════════════════════
-# PCE-Agencia — Render Blueprint (Docker Compose)
+# PCE-Agencia — Render Blueprint (Free Tier)
 # ══════════════════════════════════════════
-# Deploy: conecta repo → New → Blueprint → selecciona este archivo
+# Deploy: Dashboard → New → Blueprint → connect repo dhardi007/PCE-Agencia
+# Database: usa PostgreSQL externo (Neon/Supabase/Railway) y pon DATABASE_URL en env vars
 # https://render.com/docs/blueprint-spec
 
 services:
-  # PostgreSQL 16
-  - type: pserv
-    name: pce-db
-    plan: free
-    region: oregon
-    ipAllowList: []
-    databaseName: pce_agencia
-    user: postgres
-
   # Backend API (Docker)
   - type: web
     name: pce-backend
@@ -24,9 +16,7 @@ services:
     plan: free
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: pce-db
-          property: connectionString
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_REFRESH_SECRET
