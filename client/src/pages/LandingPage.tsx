@@ -66,7 +66,7 @@ export function LandingPage() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('/src/assets/hero.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80')] bg-cover bg-center" />
           <div className="absolute inset-0 bg-gradient-to-b from-[rgb(var(--background))] via-[rgb(var(--background))/90] to-[rgb(var(--background))]" />
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent" />
         </div>
