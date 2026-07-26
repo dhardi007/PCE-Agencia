@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider, Outlet } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardLayout } from './layout/DashboardLayout';
@@ -11,6 +11,7 @@ import { TransaccionesPage } from './pages/TransaccionesPage';
 import { FacturasPage } from './pages/FacturasPage';
 import { useAuthStore } from './store/authStore';
 import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -28,26 +29,44 @@ function PublicRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+// Page transition wrapper for instant feel
+function PageTransition({ children }: { children: ReactNode }) {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    // Instant reveal
+    setIsVisible(true);
+  }, []);
+  
+  return (
+    <div className={`animate-instantReveal ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="animate-pageIn">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <PublicRoute><LandingPage /></PublicRoute>,
+    element: <PublicRoute><PageTransition><LandingPage /></PageTransition></PublicRoute>,
   },
   {
     path: '/login',
-    element: <PublicRoute><LoginPage /></PublicRoute>,
+    element: <PublicRoute><PageTransition><LoginPage /></PageTransition></PublicRoute>,
   },
   {
     path: '/app',
     element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
     children: [
-      { index: true, element: <OverviewPage /> },
-      { path: 'clientes', element: <ClientesPage /> },
-      { path: 'proveedores', element: <ProveedoresPage /> },
-      { path: 'itinerarios', element: <ItinerariosPage /> },
-      { path: 'reservas', element: <ReservasPage /> },
-      { path: 'transacciones', element: <TransaccionesPage /> },
-      { path: 'facturas', element: <FacturasPage /> },
+      { index: true, element: <PageTransition><OverviewPage /></PageTransition> },
+      { path: 'clientes', element: <PageTransition><ClientesPage /></PageTransition> },
+      { path: 'proveedores', element: <PageTransition><ProveedoresPage /></PageTransition> },
+      { path: 'itinerarios', element: <PageTransition><ItinerariosPage /></PageTransition> },
+      { path: 'reservas', element: <PageTransition><ReservasPage /></PageTransition> },
+      { path: 'transacciones', element: <PageTransition><TransaccionesPage /></PageTransition> },
+      { path: 'facturas', element: <PageTransition><FacturasPage /></PageTransition> },
     ],
   },
   {

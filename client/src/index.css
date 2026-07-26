@@ -147,4 +147,57 @@
   .animate-in {
     animation: fadeIn 0.2s ease-out, slideUp 0.3s ease-out;
   }
+  
+  /* Page transitions for instant feel */
+  .page-transition {
+    animation: pageIn 0.15s ease-out;
+  }
+  
+  .page-exit {
+    animation: pageOut 0.1s ease-in forwards;
+  }
+  
+  /* Instant content reveal */
+  .instant-reveal {
+    animation: instantReveal 0.08s ease-out;
+  }
+  
+  /* Text glow effects */
+  .text-glow {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  
+  .text-glow-blue {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.4);
+  }
+  
+  .text-glow-white {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pageIn {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pageOut {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-4px); }
+  }
+  @keyframes instantReveal {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
 }
